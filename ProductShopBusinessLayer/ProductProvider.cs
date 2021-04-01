@@ -13,11 +13,17 @@ namespace ProductShopBusinessLayer
 {
     public class ProductProvider: IProductProvider
     {
+        private readonly ProductShopDataModel _context;
+
+        public ProductProvider(ProductShopDataModel context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
         public async Task<IEnumerable<IProduct>> GetAllProducts()
         {
-            using (var productsDb = new ProductShopDataModel())
-            {
-                var products = await productsDb.Products
+
+                var products = await _context.Products
                                     .Select(p => new ProductItem
                                     {
                                         Id = p.Id,
@@ -30,58 +36,52 @@ namespace ProductShopBusinessLayer
                                     
 
                 return products.OfType<IProduct>();
-            }
+            
         }
 
         public async Task<OperationResult<IProduct>> GetProductById(int id)
         {
-            using (ProductShopDataModel productsDb = new ProductShopDataModel())
+            var dataProduct = await _context.Products.FirstOrDefaultAsync(i => i.Id == id);
+
+            if (dataProduct == null)
             {
-                var dataProduct = await productsDb.Products.FirstOrDefaultAsync(i => i.Id == id);
-
-                if (dataProduct == null)
-                {
-                    return new OperationResult<IProduct>(false, null, new[] { $"No product for id {id}" });
-                }
-
-                IProduct product = new ProductItem
-                {
-                    Id = dataProduct.Id,
-                    Price = dataProduct.Price,
-                    Title = dataProduct.Title,
-                    Description = dataProduct.Description,
-                    ImagePath = dataProduct.ImagePath
-                };
-
-                return new OperationResult<IProduct>(true, product);
+                return new OperationResult<IProduct>(false, null, new[] { $"No product for id {id}" });
             }
+
+            IProduct product = new ProductItem
+            {
+                Id = dataProduct.Id,
+                Price = dataProduct.Price,
+                Title = dataProduct.Title,
+                Description = dataProduct.Description,
+                ImagePath = dataProduct.ImagePath
+            };
+
+            return new OperationResult<IProduct>(true, product);
         }
 
         public async Task<OperationResult> SaveProduct(IProduct product)
         {
-            using (var productsDb = new ProductShopDataModel())
+            var dataProduct = await _context.Products.FirstOrDefaultAsync(i => i.Id == product.Id);
+
+            if (dataProduct == null)
             {
-                var dataProduct = await productsDb.Products.FirstOrDefaultAsync(i => i.Id == product.Id);
+                return new OperationResult(false, new[] { $"No product for id {product.Id}" });
+            }
 
-                if (dataProduct == null)
-                {
-                    return new OperationResult(false, new[] { $"No product for id {product.Id}" });
-                }
+            dataProduct.ImagePath = product.ImagePath;
+            dataProduct.Price = product.Price;
+            dataProduct.Description = product.Description;
+            dataProduct.Title = product.Title;
 
-                dataProduct.ImagePath = product.ImagePath;
-                dataProduct.Price = product.Price;
-                dataProduct.Description = product.Description;
-                dataProduct.Title = product.Title;
-
-                try
-                {
-                    var saveRes = await productsDb.SaveChangesAsync();
-                    return new OperationResult(true);
-                }
-                catch(Exception ex)
-                {
-                    return new OperationResult(false, new[] { $"Error while saving product : Id {product.Id}. Error : {ex.Message}" });
-                }
+            try
+            {
+                var saveRes = await _context.SaveChangesAsync();
+                return new OperationResult(true);
+            }
+            catch(Exception ex)
+            {
+                return new OperationResult(false, new[] { $"Error while saving product : Id {product.Id}. Error : {ex.Message}" });
             }
         }
     }

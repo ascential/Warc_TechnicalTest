@@ -11,6 +11,7 @@ namespace ProductShop
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
+            routes.IgnoreRoute("api");
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapMvcAttributeRoutes();

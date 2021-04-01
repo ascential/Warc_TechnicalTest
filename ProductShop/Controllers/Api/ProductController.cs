@@ -5,24 +5,30 @@ using ProductShopDataObjects.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace ProductShop.Controllers.Api
 {
+    [RoutePrefix("api/product")]
     public class ProductController : ApiController
     {
         private readonly IProductProvider _productProvider;
 
-        public ProductController(IProductProvider productProvider)
+        // ctors
+        public ProductController(IProductProvider productProvider)            
         {
             _productProvider = productProvider ?? throw new ArgumentNullException(nameof(productProvider));
         }
 
+        public ProductController()
+            : this(DependencyProvider.Get<IProductProvider>())
+        {
+            // 
+        }
+
         [HttpGet]
-        [Route("allProducts")]
+        [Route("all")]
         public async Task<IEnumerable<ProductDto>> GetProducts()
         {
             var products = await _productProvider.GetAllProducts();
