@@ -59,12 +59,21 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -125,15 +134,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\EditController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EditProductViewModel.cs" />
-    <Compile Include="Models\HomepageViewModel.cs" />
-    <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Models\ProductDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +167,9 @@
     <Content Include="ClientApp\src\App.css" />
     <Content Include="ClientApp\src\App.js" />
     <Content Include="ClientApp\src\App.test.js" />
+    <Content Include="ClientApp\src\images\joel-jasmin-forestbird-xzPMUMDDsfk-unsplash.jpg" />
+    <Content Include="ClientApp\src\images\kai-dahms-IBo9Ehrzcfs-unsplash.jpg" />
+    <Content Include="ClientApp\src\images\markus-gjengaar-v3l8kTbPhzA-unsplash.jpg" />
     <Content Include="ClientApp\src\index.css" />
     <Content Include="ClientApp\src\index.js" />
     <Content Include="ClientApp\src\setupTests.js" />
@@ -169,32 +178,17 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="compilerconfig.json" />
     <Content Include="ClientApp\.gitignore" />
     <Content Include="ClientApp\package-lock.json" />
     <Content Include="ClientApp\package.json" />
     <Content Include="ClientApp\public\manifest.json" />
     <Content Include="ClientApp\README.md" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Styles\Css\styles.css" />
-    <Content Include="Styles\Css\styles.min.css">
-      <DependentUpon>styles.css</DependentUpon>
-    </Content>
+    <Content Include="images\joel-jasmin-forestbird-xzPMUMDDsfk-unsplash.jpg" />
+    <Content Include="images\kai-dahms-IBo9Ehrzcfs-unsplash.jpg" />
+    <Content Include="images\markus-gjengaar-v3l8kTbPhzA-unsplash.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -206,38 +200,25 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Styles\Scss\styles.scss" />
-    <Content Include="Views\Product\Product.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
-    <Content Include="Views\Edit\EditProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\" />
+    <Folder Include="Validator\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProductShopBusinessLayer\ProductShopBusinessLayer.csproj">
-      <Project>{d2a4037a-d90d-43eb-ac5a-20aef97ddcdd}</Project>
+      <Project>{D2A4037A-D90D-43EB-AC5A-20AEF97DDCDD}</Project>
       <Name>ProductShopBusinessLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProductShopDataObjects\ProductShopDataObjects.csproj">
-      <Project>{a5c1580e-23f8-450c-80fb-9bfb308f180f}</Project>
+      <Project>{A5C1580E-23F8-450C-80FB-9BFB308F180F}</Project>
       <Name>ProductShopDataObjects</Name>
     </ProjectReference>
   </ItemGroup>

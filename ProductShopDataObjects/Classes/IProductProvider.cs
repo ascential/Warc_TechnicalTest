@@ -1,17 +1,13 @@
-﻿using System;
+﻿using ProductShopDataObjects.Dtos;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProductShopDataObjects.Classes
 {
     public interface IProductProvider
     {
-        List<IProduct> GetAllProducts();
-
-        IProduct GetProductById(int id);
-
-        void SaveProduct(IProduct product);
+        Task<IEnumerable<IProduct>> GetAllProducts();
+        Task<OperationResult<IProduct>> GetProductById(int id);
+        Task<OperationResult> SaveProduct(IProduct product);
     }
 }

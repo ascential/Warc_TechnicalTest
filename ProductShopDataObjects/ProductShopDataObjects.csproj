@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\OperationResult.cs" />
     <Compile Include="Classes\IProduct.cs" />
     <Compile Include="Classes\IProductProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
