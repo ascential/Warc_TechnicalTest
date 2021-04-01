@@ -11,36 +11,39 @@ namespace ProductShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IProductProvider _productProvider;
+        // private readonly IProductProvider _productProvider;
 
         public HomeController()
         {
-            _productProvider = new ProductProvider();
+            // _productProvider = new ProductProvider();
         }
 
 
         public ActionResult Index()
         {
-            HomepageViewModel model = new HomepageViewModel
-            {
-                Products = _productProvider.GetAllProducts()
-            };
+            var res = base.File("~/ClientApp/build/index.html", "text/html");
+            return res;
 
-            return View(model);
+            //HomepageViewModel model = new HomepageViewModel
+            //{
+            //    Products = _productProvider.GetAllProducts()
+            //};
+
+            //return View(model);
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+        //public ActionResult Contact()
+        //{
+        //    ViewBag.Message = "Your contact page.";
 
-            return View();
-        }
+        //    return View();
+        //}
     }
 }

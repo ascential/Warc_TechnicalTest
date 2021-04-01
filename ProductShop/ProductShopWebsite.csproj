@@ -137,6 +137,33 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClientApp\build\asset-manifest.json" />
+    <Content Include="ClientApp\build\favicon.ico" />
+    <Content Include="ClientApp\build\index.html" />
+    <Content Include="ClientApp\build\logo192.png" />
+    <Content Include="ClientApp\build\logo512.png" />
+    <Content Include="ClientApp\build\manifest.json" />
+    <Content Include="ClientApp\build\robots.txt" />
+    <Content Include="ClientApp\build\static\css\main.9d5b29c0.chunk.css" />
+    <Content Include="ClientApp\build\static\css\main.9d5b29c0.chunk.css.map" />
+    <Content Include="ClientApp\build\static\js\2.5b75f4c1.chunk.js" />
+    <Content Include="ClientApp\build\static\js\2.5b75f4c1.chunk.js.LICENSE.txt" />
+    <Content Include="ClientApp\build\static\js\2.5b75f4c1.chunk.js.map" />
+    <Content Include="ClientApp\build\static\js\main.a8d6fc6c.chunk.js" />
+    <Content Include="ClientApp\build\static\js\main.a8d6fc6c.chunk.js.map" />
+    <Content Include="ClientApp\build\static\js\runtime-main.f4c3e1de.js" />
+    <Content Include="ClientApp\build\static\js\runtime-main.f4c3e1de.js.map" />
+    <Content Include="ClientApp\public\favicon.ico" />
+    <Content Include="ClientApp\public\index.html" />
+    <Content Include="ClientApp\public\logo192.png" />
+    <Content Include="ClientApp\public\logo512.png" />
+    <Content Include="ClientApp\public\robots.txt" />
+    <Content Include="ClientApp\src\App.css" />
+    <Content Include="ClientApp\src\App.js" />
+    <Content Include="ClientApp\src\App.test.js" />
+    <Content Include="ClientApp\src\index.css" />
+    <Content Include="ClientApp\src\index.js" />
+    <Content Include="ClientApp\src\setupTests.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -148,6 +175,11 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="compilerconfig.json" />
+    <Content Include="ClientApp\.gitignore" />
+    <Content Include="ClientApp\package-lock.json" />
+    <Content Include="ClientApp\package.json" />
+    <Content Include="ClientApp\public\manifest.json" />
+    <Content Include="ClientApp\README.md" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -246,10 +278,26 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
+    <PropertyGroup>
+      <ReactBuild>
+        cd ClientApp
+        npm install
+        npm run build
+      </ReactBuild>
+    </PropertyGroup>
+    <Exec Condition="$(Configuration) == 'Release'" Command="$(ReactBuild)" />
   </Target>
   <Target Name="AfterBuild">
-  </Target> -->
+    <Exec Command="xcopy $(WebProjectOutputDir)\ClientApp\build $(WebProjectOutputDir)\bin\ClientApp\build /e /i /y /s" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+      REM cd $(WebProjectOutputDir)\ClientApp
+      REM npm run build
+    </PreBuildEvent>
+    <PostBuildEvent>
+      REM  xcopy $(WebProjectOutputDir)\ClientApp\build $(WebProjectOutputDir)\bin\ClientApp\build /e /i /y /s
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
