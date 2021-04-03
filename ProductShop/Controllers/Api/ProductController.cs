@@ -1,4 +1,5 @@
-﻿using ProductShop.Models;
+﻿using Newtonsoft.Json;
+using ProductShop.Models;
 using ProductShopBusinessLayer.Classes;
 using ProductShopDataObjects.Classes;
 using ProductShopDataObjects.Dtos;
@@ -7,9 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace ProductShop.Controllers.Api
-{
+{    
+    [EnableCors(origins: "http://localhost:3000", methods: "*", headers: "*")]
     [RoutePrefix("api/product")]
     public class ProductController : ApiController
     {
@@ -29,7 +32,7 @@ namespace ProductShop.Controllers.Api
 
         [HttpGet]
         [Route("all")]
-        public async Task<IEnumerable<ProductDto>> GetProducts()
+        public async Task<List<ProductDto>> GetProducts()
         {
             var products = await _productProvider.GetAllProducts();
             var res = products.Select(x => new ProductDto
@@ -40,8 +43,8 @@ namespace ProductShop.Controllers.Api
                 Price = x.Price,
                 Title = x.Title
 
-            });
-
+            }).ToList();
+            
             return res;
         }
 

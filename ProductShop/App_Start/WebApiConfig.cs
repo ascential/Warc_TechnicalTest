@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace ProductShop
 {
@@ -6,6 +7,9 @@ namespace ProductShop
     {
         public static void Register(HttpConfiguration config)
         {
+            // This is for here only for dev testing                  
+            config.EnableCors();            
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
