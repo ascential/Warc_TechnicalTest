@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using ProductShop.Models;
+﻿using ProductShop.Models;
 using ProductShopBusinessLayer.Classes;
 using ProductShopDataObjects.Classes;
 using ProductShopDataObjects.Dtos;
@@ -8,11 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace ProductShop.Controllers.Api
-{    
-    [EnableCors(origins: "http://localhost:3000", methods: "*", headers: "*")]
+{
     [RoutePrefix("api/product")]
     public class ProductController : ApiController
     {

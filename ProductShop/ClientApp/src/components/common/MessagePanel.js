@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { StyledList, styledList } from '../commonStyleComponents/lists';
+import { StyledList } from '../commonStyleComponents/lists';
 
 const MessagePanel = ({ messages }) => {
     if(messages && messages.length > 0){

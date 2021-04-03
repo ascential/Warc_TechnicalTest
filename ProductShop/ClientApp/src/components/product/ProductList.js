@@ -3,18 +3,20 @@ import { getProducts } from '../services/ProductDataService';
 import MessagePanel from '../common/MessagePanel';
 import { PageHeading, StyledLink } from '../../global-style';
 import { CustomTable } from '../commonStyleComponents/table';
+import { StyledImage } from '../commonStyleComponents/image';
 
 const ProductList = () => {
     const [errors, setErrors] = useState([]);
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
+        setErrors(['Loading data ...']);
         getProducts().then(async res => {
             if(res.status !== 200) {
                 setErrors(['Failed to get products', res.statusText]);                
             } else {     
                 const data = await res.json();          
-                console.log(res);
+                setErrors([]);                
                 setProducts(data);
             }
         })
@@ -25,7 +27,7 @@ const ProductList = () => {
             <PageHeading>Products</PageHeading>
             <hr/>
             <MessagePanel messages={errors} />
-            <div>
+            { (errors && errors.length == 0) && <div>
                 <CustomTable>
                     <thead>
                         <tr>
@@ -44,16 +46,16 @@ const ProductList = () => {
                                     <td>{prd.price}</td>
                                     <td>{prd.title}</td>
                                     <td>{prd.description}</td>
-                                    <td><img src={prd.imagePath} alt=''/></td>
+                                    <td><StyledImage src={prd.imagePath} alt=''/></td>
                                     <td>
-                                        <StyledLink to={`product/${prd.id}`}>Edit &gt;&gt;</StyledLink>
+                                        <StyledLink to={`product/${prd.id}`}>EDIT &gt;&gt;</StyledLink>
                                     </td>
                                 </tr>
                             )
                         })}
                     </tbody>
                 </CustomTable>
-            </div>
+            </div> }
         </div>
     );
 }

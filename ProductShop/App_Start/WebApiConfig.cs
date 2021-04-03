@@ -7,8 +7,9 @@ namespace ProductShop
     {
         public static void Register(HttpConfiguration config)
         {
-            // This is for here only for dev testing                  
-            config.EnableCors();            
+            // This is for here only for dev testing   
+            var localhostDev = new EnableCorsAttribute("http://localhost:3000,http://localhost:5000", "*", "*");
+            config.EnableCors(localhostDev);       
 
             config.MapHttpAttributeRoutes();
 

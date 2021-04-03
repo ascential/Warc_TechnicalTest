@@ -59,6 +59,7 @@ export const SectionHeading = styled(ApplicationHeading)`
 export const StyledLink = styled(Link)`
   color: ${darken(0.3, colors.link)};
   text-decoration: none;
+  font-weight: ${fonts.bold};
 
   &:hover {
     background-color: ${colors.spotlight}

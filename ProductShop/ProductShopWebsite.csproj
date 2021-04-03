@@ -194,9 +194,18 @@
     <Content Include="ClientApp\src\App.css" />
     <Content Include="ClientApp\src\App.js" />
     <Content Include="ClientApp\src\App.test.js" />
-    <Content Include="ClientApp\src\images\joel-jasmin-forestbird-xzPMUMDDsfk-unsplash.jpg" />
-    <Content Include="ClientApp\src\images\kai-dahms-IBo9Ehrzcfs-unsplash.jpg" />
-    <Content Include="ClientApp\src\images\markus-gjengaar-v3l8kTbPhzA-unsplash.jpg" />
+    <Content Include="ClientApp\src\components\commonStyleComponents\buttons.js" />
+    <Content Include="ClientApp\src\components\commonStyleComponents\forms.js" />
+    <Content Include="ClientApp\src\components\commonStyleComponents\image.js" />
+    <Content Include="ClientApp\src\components\commonStyleComponents\lists.js" />
+    <Content Include="ClientApp\src\components\commonStyleComponents\table.js" />
+    <Content Include="ClientApp\src\components\common\MessagePanel.js" />
+    <Content Include="ClientApp\src\components\product\Product.js" />
+    <Content Include="ClientApp\src\components\product\ProductList.js" />
+    <Content Include="ClientApp\src\components\services\ProductDataService.js" />
+    <Content Include="images\joel-jasmin-forestbird-xzPMUMDDsfk-unsplash.jpg" />
+    <Content Include="images\kai-dahms-IBo9Ehrzcfs-unsplash.jpg" />
+    <Content Include="images\markus-gjengaar-v3l8kTbPhzA-unsplash.jpg" />
     <Content Include="ClientApp\src\index.css" />
     <Content Include="ClientApp\src\index.js" />
     <Content Include="ClientApp\src\setupTests.js" />
@@ -213,9 +222,6 @@
     <Content Include="ClientApp\package.json" />
     <Content Include="ClientApp\public\manifest.json" />
     <Content Include="ClientApp\README.md" />
-    <Content Include="images\joel-jasmin-forestbird-xzPMUMDDsfk-unsplash.jpg" />
-    <Content Include="images\kai-dahms-IBo9Ehrzcfs-unsplash.jpg" />
-    <Content Include="images\markus-gjengaar-v3l8kTbPhzA-unsplash.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
