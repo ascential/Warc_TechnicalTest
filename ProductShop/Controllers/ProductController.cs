@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Http;
 using ProductShop.Models;
 using ProductShopBusinessLayer;
+using ProductShopBusinessLayer.Classes;
 using ProductShopDataObjects.Classes;
 
 namespace ProductShop.Controllers
 {
-    public class ProductController : Controller
+    [RoutePrefix("api/product")]
+    public class ProductController : ApiController
     {
         private readonly IProductProvider _productProvider;
 
@@ -17,20 +15,46 @@ namespace ProductShop.Controllers
         {
             _productProvider = new ProductProvider();
         }
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [Route("product/{id}")]
-        public ActionResult Product(int id)
+        
+        [HttpGet]
+        [Route("{id}")]
+        public IHttpActionResult GetProduct(int id)
         {
             ProductViewModel model = new ProductViewModel
             {
                 Product = _productProvider.GetProductById(id)
             };
 
-            return View("Product", model);
+            return Ok(model);
+        }
+        [HttpGet]
+        [Route("all")]
+        public IHttpActionResult GetAllProducts()
+        {
+            HomepageViewModel model = new HomepageViewModel
+            {
+                Products = _productProvider.GetAllProducts()
+            };
+
+            return Ok(model);
+        }
+
+        [HttpPost]
+        [Route("update/{id}")]
+        public IHttpActionResult SaveProduct(EditProductViewModel model)
+        {
+            var product = new ProductItem
+            {
+                Id = model.Id,
+                Price = model.Price,
+                Title = model.Title,
+                ImagePath = model.ImagePath,
+                Description = model.Description
+            };
+
+            _productProvider.SaveProduct(product);
+
+            return Ok();
         }
     }
 }

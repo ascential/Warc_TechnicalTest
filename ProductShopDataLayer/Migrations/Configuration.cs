@@ -28,21 +28,24 @@
                     Id = 1,
                     Price = 2.35M,
                     Title = "Wood",
-                    ImagePath = "/images/joel-jasmin-forestbird-xzPMUMDDsfk-unsplash.jpg"
+                    ImagePath = "/images/joel-jasmin-forestbird-xzPMUMDDsfk-unsplash.jpg",
+                    Description = "The finest piece of wood you've ever seen!"
                 },
                 new Product()
                 {
                     Id = 2,
                     Price = 8.13M,
                     Title = "Piano",
-                    ImagePath = "/images/markus-gjengaar-v3l8kTbPhzA-unsplash.jpg"
+                    ImagePath = "/images/markus-gjengaar-v3l8kTbPhzA-unsplash.jpg",
+                    Description = "This is one cheap piano"
                 },
                 new Product()
                 {
                     Id = 3,
                     Price = 21.34M,
                     Title = "Bubble",
-                    ImagePath = "/images/kai-dahms-IBo9Ehrzcfs-unsplash.jpg"
+                    ImagePath = "/images/kai-dahms-IBo9Ehrzcfs-unsplash.jpg",
+                    Description = "We do not offer refunds if product pops after purchase"
                 }
             });
 
