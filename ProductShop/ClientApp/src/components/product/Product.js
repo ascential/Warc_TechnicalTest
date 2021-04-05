@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router";
+// import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { getProduct, saveProduct } from '../services/ProductDataService';
 import MessagePanel from '../common/MessagePanel';
 import { PageHeading, StyledLink, SectionHeading } from '../../global-style';
@@ -9,7 +10,13 @@ import { StyledForm, Input, Caption, LongText, StyledFormFooter } from '../commo
 function Product() {
     const { id } = useParams();
     const [info, setInfo] = useState([]);
-    const [product, setProduct] = useState(null);
+    const [product, setProduct] = useState({
+        id: id,
+        title: '',
+        description: '',
+        price: null,
+        imagePath: ''
+    });
 
     useEffect(() => {        
         getProduct(id).then(async res => {
@@ -64,20 +71,20 @@ function Product() {
             <StyledForm>
                 <fieldset>
                     <Caption>Title</Caption>
-                    <Input type='text' minLength='1' 
-                        id='title' value={product?.title} 
+                    <Input type='text' name='title' minLength='1' 
+                        id='title' value={product?.title || ''} 
                         onChange={(event) => updateProduct('title', event.target.value )} />
                 </fieldset>
                 <fieldset>
                     <Caption>Description</Caption>
-                    <LongText type='text' minLength='5' 
-                        id='description' value={product?.description} 
+                    <LongText type='text' name='description' minLength='5' 
+                        id='description' value={product?.description || ''} 
                         onChange={(event) => updateProduct('description', event.target.value)} />
                 </fieldset>
                 <fieldset>
                     <Caption>Price</Caption>
-                    <Input type='number' minLength='5' 
-                        id='price' value={product?.price} 
+                    <Input type='number' name='price' minLength='5' 
+                        id='price' value={product?.price || 0} 
                         onChange={(event) => updateProduct('price', event.target.value )} />
                 </fieldset>
                 <fieldset>
@@ -87,7 +94,7 @@ function Product() {
                 <hr/>
                 <StyledFormFooter>
                     <StyledLink to='/'>&lt;&lt; Back to Products</StyledLink>
-                    <Button type='submit' onClick={save}>SAVE</Button>
+                    <Button type='submit' id='btnSubmit' onClick={save}>SAVE</Button>
                 </StyledFormFooter>
             </StyledForm>
         </div>
