@@ -19,7 +19,7 @@ const ProductList = () => {
                 setErrors([]);                
                 setProducts(data);
             }
-        })
+        }).catch(err => setErrors(['Failed to get products. An error occured', err]));
     }, [ setErrors, setProducts]);
 
     return (

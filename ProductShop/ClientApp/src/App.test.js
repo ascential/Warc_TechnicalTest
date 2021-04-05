@@ -1,13 +1,12 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
-// import App from './App';
+import React from 'react';
+import { shallow } from 'enzyme';
+import App from './App';
 
 describe('app test', () => {
   
   it('renders correctly', () => {
-    // const wrapper = shallow(<App />);
-    // expect(wrapper).toMatchSnapshot();
-    expect(true).toBe(true);
+    const wrapper = shallow(<App />);
+    expect(wrapper).toMatchSnapshot();    
   });
 });
 
