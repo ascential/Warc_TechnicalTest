@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ProductShopDataLayer
 {
-    public class ProductShopDataModel : DbContext, IProductShopDataModel
+    public class ProductShopDataModel : DbContext
     {
         public ProductShopDataModel()
             : base("name=ProductShopDBContext")

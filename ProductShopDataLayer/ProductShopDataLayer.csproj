@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Product.cs" />
-    <Compile Include="IProductShopDataModel.cs" />
     <Compile Include="Migrations\202101221326028_Initial migration.cs" />
     <Compile Include="Migrations\202101221326028_Initial migration.designer.cs">
       <DependentUpon>202101221326028_Initial migration.cs</DependentUpon>
