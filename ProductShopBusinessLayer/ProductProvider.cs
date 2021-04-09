@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ProductShopBusinessLayer.Classes;
+﻿using ProductShopBusinessLayer.Classes;
 using ProductShopDataLayer;
 using ProductShopDataObjects.Classes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProductShopBusinessLayer
 {
@@ -20,7 +18,8 @@ namespace ProductShopBusinessLayer
                     Id = p.Id,
                     Price = p.Price,
                     Title = p.Title,
-                    ImagePath = p.ImagePath
+                    ImagePath = p.ImagePath,
+                    Description = p.Description
                 }).ToList());
 
                 return products;
@@ -44,7 +43,8 @@ namespace ProductShopBusinessLayer
                     Id = dataProduct.Id,
                     Price = dataProduct.Price,
                     Title = dataProduct.Title,
-                    ImagePath = dataProduct.ImagePath
+                    ImagePath = dataProduct.ImagePath,
+                    Description = dataProduct.Description
                 };
 
                 return product;
@@ -65,6 +65,7 @@ namespace ProductShopBusinessLayer
                 dataProduct.ImagePath = product.ImagePath;
                 dataProduct.Price = product.Price;
                 dataProduct.Title = product.Title;
+                dataProduct.Description = product.Description;
 
                 productsDb.SaveChanges();
             }

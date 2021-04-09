@@ -19,10 +19,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>53268</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -56,6 +56,14 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.3.2.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.3.2\lib\net45\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -122,18 +130,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BindingConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Attributes\CustomErrorHandlerAttribute.cs" />
     <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\DependencyResolver.cs" />
+    <Compile Include="Infrastructure\Utility\ErrorHandler.cs" />
+    <Compile Include="Infrastructure\Utility\IErrorHandler.cs" />
+    <Compile Include="Infrastructure\Utility\ILogger.cs" />
+    <Compile Include="Infrastructure\Utility\FileLogger.cs" />
     <Compile Include="Models\EditProductViewModel.cs" />
     <Compile Include="Models\HomepageViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
+    <Compile Include="Infrastructure\Utility\IObjectMapper.cs" />
+    <Compile Include="Infrastructure\Utility\ObjectMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +162,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="outoforder.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="compilerconfig.json" />
@@ -203,6 +221,10 @@
     <ProjectReference Include="..\ProductShopBusinessLayer\ProductShopBusinessLayer.csproj">
       <Project>{d2a4037a-d90d-43eb-ac5a-20aef97ddcdd}</Project>
       <Name>ProductShopBusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProductShopDataLayer\ProductShopDataLayer.csproj">
+      <Project>{B060C338-2426-4422-A622-44341FDB5FD0}</Project>
+      <Name>ProductShopDataLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\ProductShopDataObjects\ProductShopDataObjects.csproj">
       <Project>{a5c1580e-23f8-450c-80fb-9bfb308f180f}</Project>

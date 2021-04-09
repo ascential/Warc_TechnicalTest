@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using ProductShop.Models;
-using ProductShopBusinessLayer;
+﻿using ProductShop.Models;
 using ProductShopDataObjects.Classes;
+using System.Web.Mvc;
 
 namespace ProductShop.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly IProductProvider _productProvider;
 
-        public HomeController()
+        public HomeController(IProductProvider productProvider)
         {
-            _productProvider = new ProductProvider();
+            _productProvider = productProvider;
         }
 
 
@@ -41,6 +37,11 @@ namespace ProductShop.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Error()
+        {
+            return View("Error");
         }
     }
 }

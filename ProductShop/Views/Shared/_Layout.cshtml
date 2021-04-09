@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/Styles/Css/styles.css">
 </head>
 <body>
+    @Html.AntiForgeryToken()
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -36,6 +37,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -1,12 +1,16 @@
 ﻿@model ProductShop.Models.EditProductViewModel
 @{
     ViewBag.Title = "Edit";
+    Html.EnableClientValidation(true);
 }
 
 <h1>Edit product</h1>
+@Html.ValidationMessage("ModelError")
 
 @using (Html.BeginForm("SaveProduct", "Edit", FormMethod.Post))
 {
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="row form-group">
         <div class="col-md-4">
             @Html.LabelFor(m => m.Id)
@@ -20,7 +24,9 @@
             @Html.LabelFor(m => m.Title)
         </div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+            @Html.EditorFor(m => m.Title, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Title)
+            
         </div>
     </div>
     <div class="row form-group">
@@ -28,7 +34,8 @@
             @Html.LabelFor(m => m.ImagePath)
         </div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.ImagePath, new { @class = "form-control" })
+            @Html.EditorFor(m => m.ImagePath, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ImagePath)
         </div>
     </div>
     <div class="row form-group">
@@ -36,10 +43,19 @@
             @Html.LabelFor(m => m.Price)
         </div>
         <div class="col-md-8">
-            @Html.TextBoxFor(m => m.Price, new { @class = "form-control" })
+            @Html.EditorFor(m => m.Price, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Price)
         </div>
     </div>
-
+    <div class="row form-group">
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.Description)
+        </div>
+        <div class="col-md-8">
+            @Html.EditorFor(m => m.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+    </div>
 
 
     <div class="row form-group">
@@ -47,4 +63,3 @@
     </div>
 
 }
-

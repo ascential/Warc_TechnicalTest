@@ -1,57 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using ProductShop.Infrastructure.Utility;
+using ProductShop.Mapper;
 using ProductShop.Models;
-using ProductShopBusinessLayer;
 using ProductShopBusinessLayer.Classes;
 using ProductShopDataObjects.Classes;
+using System;
+using System.Web.Mvc;
 
 namespace ProductShop.Controllers
 {
     public class EditController : Controller
     {
         private readonly IProductProvider _productProvider;
+        private readonly IObjectMapper _objectMapper;
+        private readonly IErrorHandler _errorHandler;
 
-        public EditController()
+        public EditController(IProductProvider productProvider, 
+            IObjectMapper objectMapper,
+            IErrorHandler errorHandler)
         {
-            _productProvider = new ProductProvider();
+            _productProvider = productProvider;
+            _objectMapper = objectMapper;
+            _errorHandler = errorHandler;
         }
 
         // GET: Edit
         [Route("edit/product/{id}")]
         public ActionResult EditProduct(int id)
         {
-            var product = _productProvider.GetProductById(id);
-
-            EditProductViewModel model = new EditProductViewModel
+            var model = new EditProductViewModel();
+            try
             {
-                Price = product.Price,
-                Id = product.Id,
-                Title = product.Title,
-                ImagePath = product.ImagePath
-            };
+                var product = _productProvider.GetProductById(id);
+                _objectMapper.Map<IProduct, EditProductViewModel>(product, model);
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("ModelError",
+                    _errorHandler.ManageError(ex).Message);
+            }
 
             return View("EditProduct", model);
         }
 
         [HttpPost]
         [Route("edit/product/save")]
+        //[ValidateAntiForgeryToken]
         public ActionResult SaveProduct(EditProductViewModel model)
         {
-            var product = new ProductItem
+            try
             {
-                Id = model.Id,
-                Price = model.Price,
-                Title = model.Title,
-                ImagePath = model.ImagePath
-            };
+                if (ModelState.IsValid)
+                {
+                    var product = new ProductItem();
+                    _objectMapper.Map<EditProductViewModel, ProductItem>(model, product);
+                    _productProvider.SaveProduct(product);
+                    return new RedirectResult($"/product/{model.Id}");
+                }
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("ModelError",
+                    _errorHandler.ManageError(ex).Message);
+            }
 
-            _productProvider.SaveProduct(product);
-
-            return new RedirectResult($"/product/{model.Id}");
+            return View(model);
         }
     }
 }
