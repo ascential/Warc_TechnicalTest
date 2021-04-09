@@ -14,9 +14,11 @@
         {
             //  This method will be called after migrating to the latest version.
 
+
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
-            if (context.Products.Find(1) == null)
+            if (context.Products.SqlQuery(context.Products.Sql).CountAsync().Result == 0)
+            {
                 context.Products.AddOrUpdate(new[]
                 {
                     new Product()
@@ -41,6 +43,9 @@
                         ImagePath = "/images/kai-dahms-IBo9Ehrzcfs-unsplash.jpg"
                     }
                 });
+
+                context.SaveChanges();
+            }
 
             base.Seed(context);
         }
