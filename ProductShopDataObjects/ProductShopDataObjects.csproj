@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Result.cs" />
     <Compile Include="Classes\IProduct.cs" />
     <Compile Include="Classes\IProductProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

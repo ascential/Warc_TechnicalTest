@@ -1,72 +1,87 @@
-﻿using System;
+﻿using ProductShopBusinessLayer.Classes;
+using ProductShopDataLayer;
+using ProductShopDataObjects.Classes;
+using ProductShopDataObjects.Dtos;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProductShopBusinessLayer.Classes;
-using ProductShopDataLayer;
-using ProductShopDataObjects.Classes;
 
 namespace ProductShopBusinessLayer
 {
-    public class ProductProvider : IProductProvider
+    public class ProductProvider: IProductProvider
     {
-        public List<IProduct> GetAllProducts()
-        {
-            using (ProductShopDataModel productsDb = new ProductShopDataModel())
-            {
-                List<IProduct> products = new List<IProduct>(productsDb.Products.Select(p => new ProductItem
-                {
-                    Id = p.Id,
-                    Price = p.Price,
-                    Title = p.Title,
-                    ImagePath = p.ImagePath
-                }).ToList());
+        private readonly ProductShopDataModel _context;
 
-                return products;
-            }
+        public ProductProvider(ProductShopDataModel context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-
-        public IProduct GetProductById(int id)
+        public async Task<IEnumerable<IProduct>> GetAllProducts()
         {
-            using (ProductShopDataModel productsDb = new ProductShopDataModel())
-            {
-                var dataProduct = productsDb.Products.FirstOrDefault(i => i.Id == id);
 
-                if (dataProduct == null)
-                {
-                    throw new NullReferenceException($"No product for id {id}");
-                }
+                var products = await _context.Products
+                                    .Select(p => new ProductItem
+                                    {
+                                        Id = p.Id,
+                                        Price = p.Price,
+                                        Title = p.Title,
+                                        Description = p.Description,
+                                        ImagePath = p.ImagePath
+                                    })
+                                    .ToListAsync();
+                                    
 
-                IProduct product = new ProductItem
-                {
-                    Id = dataProduct.Id,
-                    Price = dataProduct.Price,
-                    Title = dataProduct.Title,
-                    ImagePath = dataProduct.ImagePath
-                };
-
-                return product;
-            }
+                return products.OfType<IProduct>();
+            
         }
 
-        public void SaveProduct(IProduct product)
+        public async Task<Result<IProduct>> GetProductById(int id)
         {
-            using (ProductShopDataModel productsDb = new ProductShopDataModel())
+            var dataProduct = await _context.Products.FirstOrDefaultAsync(i => i.Id == id);
+
+            if (dataProduct == null)
             {
-                var dataProduct = productsDb.Products.FirstOrDefault(i => i.Id == product.Id);
+                return new Result<IProduct>(false, null, new[] { $"No product for id {id}" });
+            }
 
-                if (dataProduct == null)
-                {
-                    throw new NullReferenceException($"No product for id {product.Id}");
-                }
+            IProduct product = new ProductItem
+            {
+                Id = dataProduct.Id,
+                Price = dataProduct.Price,
+                Title = dataProduct.Title,
+                Description = dataProduct.Description,
+                ImagePath = dataProduct.ImagePath
+            };
 
-                dataProduct.ImagePath = product.ImagePath;
-                dataProduct.Price = product.Price;
-                dataProduct.Title = product.Title;
+            return new Result<IProduct>(true, product);
+        }
 
-                productsDb.SaveChanges();
+        public async Task<Result> SaveProduct(IProduct product)
+        {
+            var dataProduct = await _context.Products.FirstOrDefaultAsync(i => i.Id == product.Id);
+
+            if (dataProduct == null)
+            {
+                return new Result(false, new[] { $"No product for id {product.Id}" });
+            }
+
+            dataProduct.ImagePath = product.ImagePath;
+            dataProduct.Price = product.Price;
+            dataProduct.Description = product.Description;
+            dataProduct.Title = product.Title;
+
+            try
+            {
+                var saveRes = await _context.SaveChangesAsync();
+                return new Result(true);
+            }
+            catch(Exception ex)
+            {
+                return new Result(false, new[] { $"Error while saving product : Id {product.Id}. Error : {ex.Message}" });
             }
         }
     }
