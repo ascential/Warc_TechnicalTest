@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ProductShopBusinessLayer.Classes;
 using ProductShopDataLayer;
 using ProductShopDataObjects.Classes;
+using ProductShopDataObjects.Dtos;
 
 namespace ProductShopBusinessLayer
 {
@@ -20,6 +21,7 @@ namespace ProductShopBusinessLayer
                     Id = p.Id,
                     Price = p.Price,
                     Title = p.Title,
+                    Description = p.Description,
                     ImagePath = p.ImagePath
                 }).ToList());
 
@@ -27,8 +29,12 @@ namespace ProductShopBusinessLayer
             }
         }
 
-
-        public IProduct GetProductById(int id)
+        public async Task<IEnumerable<IProduct>> GetAllProductsAsync()
+        {
+            return GetAllProducts();
+        }
+        
+        public IProduct GetProductById(int? id)
         {
             using (ProductShopDataModel productsDb = new ProductShopDataModel())
             {
@@ -44,10 +50,24 @@ namespace ProductShopBusinessLayer
                     Id = dataProduct.Id,
                     Price = dataProduct.Price,
                     Title = dataProduct.Title,
+                    Description = dataProduct.Description,
                     ImagePath = dataProduct.ImagePath
                 };
 
                 return product;
+            }
+        }
+
+        public async Task<Result<IProduct>> GetProductByIdAsync(int? id)
+        {
+            try
+            {
+                IProduct product = GetProductById(id);
+                return new Result<IProduct>(true, product);
+            }
+            catch (Exception ex) 
+            {
+                return new Result<IProduct>(false, null, new[] { ex.Message });
             }
         }
 
@@ -65,8 +85,22 @@ namespace ProductShopBusinessLayer
                 dataProduct.ImagePath = product.ImagePath;
                 dataProduct.Price = product.Price;
                 dataProduct.Title = product.Title;
+                dataProduct.Description = product.Description;
 
                 productsDb.SaveChanges();
+            }
+        }
+
+        public async Task<Result> SaveProductAsync(IProduct product)
+        {
+            try
+            {
+                SaveProduct(product);
+                return new Result(true);
+            }
+            catch (Exception ex)
+            {
+                return new Result(false, new[] { ex.Message });
             }
         }
     }
