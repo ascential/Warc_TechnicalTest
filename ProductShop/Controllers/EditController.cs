@@ -31,7 +31,8 @@ namespace ProductShop.Controllers
                 Price = product.Price,
                 Id = product.Id,
                 Title = product.Title,
-                ImagePath = product.ImagePath
+                ImagePath = product.ImagePath,
+                Description = product.Description,
             };
 
             return View("EditProduct", model);
@@ -46,7 +47,8 @@ namespace ProductShop.Controllers
                 Id = model.Id,
                 Price = model.Price,
                 Title = model.Title,
-                ImagePath = model.ImagePath
+                ImagePath = model.ImagePath,
+                Description = model.Description,
             };
 
             _productProvider.SaveProduct(product);
