@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using ProductShop.Models;
-using ProductShopBusinessLayer;
 using ProductShopDataObjects.Classes;
 
 namespace ProductShop.Controllers
@@ -13,10 +8,9 @@ namespace ProductShop.Controllers
     {
         private readonly IProductProvider _productProvider;
 
-        public ProductController()
-        {
-            _productProvider = new ProductProvider();
-        }
+        public ProductController(IProductProvider productProvider) =>
+            _productProvider = productProvider;
+
         public ActionResult Index()
         {
             return View();

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using ProductShop.Models;
-using ProductShopBusinessLayer;
 using ProductShopBusinessLayer.Classes;
 using ProductShopDataObjects.Classes;
 
@@ -15,10 +9,8 @@ namespace ProductShop.Controllers
     {
         private readonly IProductProvider _productProvider;
 
-        public EditController()
-        {
-            _productProvider = new ProductProvider();
-        }
+        public EditController(IProductProvider productProvider) =>
+            _productProvider = productProvider;
 
         // GET: Edit
         [Route("edit/product/{id}")]
@@ -31,7 +23,8 @@ namespace ProductShop.Controllers
                 Price = product.Price,
                 Id = product.Id,
                 Title = product.Title,
-                ImagePath = product.ImagePath
+                ImagePath = product.ImagePath,
+                Description = product.Description,
             };
 
             return View("EditProduct", model);
@@ -46,7 +39,8 @@ namespace ProductShop.Controllers
                 Id = model.Id,
                 Price = model.Price,
                 Title = model.Title,
-                ImagePath = model.ImagePath
+                ImagePath = model.ImagePath,
+                Description = model.Description,
             };
 
             _productProvider.SaveProduct(product);

@@ -12,5 +12,6 @@ namespace ProductShopDataObjects.Classes
         decimal Price { get; set; }
         string Title { get; set; }
         string ImagePath { get; set; }
+        string Description { get; set; }
     }
 }

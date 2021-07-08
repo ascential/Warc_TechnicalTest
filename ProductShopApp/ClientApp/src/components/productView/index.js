@@ -1,0 +1,1 @@
+export { ProductView as default } from './ProductView'

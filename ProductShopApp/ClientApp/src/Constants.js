@@ -1,0 +1,1 @@
+export const BACKEND_FOR_FRONTEND_HOST = 'https://localhost:5001';
